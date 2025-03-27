@@ -41,15 +41,12 @@ export default function InsuranceMarketplace() {
     return (
         <div className={`min-h-screen ${tailwindClasses.backgroundLight} ${typography.fontFamily}`}>
             {/* Header Navigation */}
-            <MainHeader
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-            />
+            <MainHeader onRiskLevelChange={setRiskLevel} onTypesChange={setSelectedTypes} riskLevel={riskLevel} selectedTypes={selectedTypes} />
 
             {/* Main Content */}
-            <div className="container mx-auto px-4 py-8 grid md:grid-cols-4 gap-6">
+            <div className="container mx-auto px-4 py-8 md:grid flex flex-col-reverse md:grid-cols-4 gap-6">
                 {/* Sidebar Filters */}
-                <div className="md:col-span-1 space-y-6">
+                <div className="md:col-span-1 space-y-6 hidden md:grid">
                     <SidebarFilters
                         selectedTypes={selectedTypes}
                         onTypesChange={setSelectedTypes}
