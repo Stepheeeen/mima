@@ -1,1 +1,1 @@
-Add Radix UI components: Accordion, Checkbox, Badge, Slider and update package.json
+Add Radix UI Tabs component and update package.json and yarn.lock
