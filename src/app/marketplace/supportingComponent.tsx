@@ -208,7 +208,7 @@ export const ProductGrid = ({ products, onProductSelect }: ProductGridProps) => 
     const { tailwindClasses, typography } = useTheme();
 
     return (
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {products.length > 0 ? (
                 products.map((product) => (
                     <Card
@@ -346,7 +346,7 @@ export const InsuranceDetailsModal = ({ product, onClose }: InsuranceDetailsModa
                         <div className="grid grid-cols-2 gap-4 mb-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
-                                    Coverage Amount ($)
+                                    Amount ($)
                                 </label>
                                 <Input
                                     type="number"
@@ -602,33 +602,19 @@ export const MainHeader = ({
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
                 </div>
 
-                {/* Navigation (Desktop) */}
-                {/* <nav className="hidden md:flex space-x-6">
-                    {NAV_LINKS.map((item) => (
-                        <a
-                            key={item}
-                            href={`/${item.toLowerCase()}`}
-                            className={`px-3 py-2 rounded-md transition-colors duration-300 ${tailwindClasses.textMuted
-                                } hover:${tailwindClasses.primary} hover:text-white`}
-                        >
-                            {item}
-                        </a>
-                    ))}
-                </nav> */}
-
+                {/* Search Bar */}
+                <div className="relative hidden md:block">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+                    <Input placeholder="Search insurance" className="pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500" />
+                </div>
                 {/* Actions */}
                 <div className="flex items-center space-x-4">
-                    {/* Search Bar */}
-                    <div className="relative hidden md:block">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
-                        <Input placeholder="Search insurance" className="pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500" />
-                    </div>
 
                     {/* Cart & Login */}
-                    <Button variant="outline" className='hidden md:block'>
+                    <Button variant="outline" className='hidden md:flex'>
                         <ShoppingCart size={20} className="mr-2" /> Cart
                     </Button>
-                    <Button className={`${tailwindClasses.primary} hover:opacity-90 hidden md:block`} >
+                    <Button className={`${tailwindClasses.primary} hover:opacity-90 hidden md:flex`} >
                         <User size={20} className="mr-2" /> Login
                     </Button>
                 </div>
