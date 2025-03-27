@@ -180,14 +180,19 @@ export const QuickActionsSidebar = () => {
   );
 };
 
-// Product Grid Component
 interface Product {
-  id: string;
-  name: string;
-  summary: string;
-  icon: React.ReactNode;
-  riskLevel: number;
-}
+    id: string;
+    type: string;
+    name: string;
+    summary: string;
+    icon: {
+      component: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>;
+      props: Record<string, any>;
+    };
+    riskLevel: number;
+    dailyRate: number;
+    payoutAmount: number;
+  }
 
 interface ProductGridProps {
   products: Product[];
@@ -211,7 +216,9 @@ export const ProductGrid = ({ products, onProductSelect }: ProductGridProps) => 
             `}
           >
             <CardContent className="p-4 flex flex-col items-center text-center">
-              <div className="mb-4">{product.icon}</div>
+              <div className="mb-4">
+                {React.createElement(product.icon.component, product.icon.props)}
+              </div>
               <h3 className={`
                 text-lg 
                 ${typography.headings} 
