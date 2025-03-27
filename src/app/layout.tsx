@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ThemeProvider, useTheme } from "@/contextProviders/ThemeProvider"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +14,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
 }
+
+// // Sample Component (For Testing Theme Usage)
+// const SampleComponent = () => {
+//   const { colors, tailwindClasses, typography } = useTheme();
+
+//   return (
+//     <div className={`${tailwindClasses.backgroundLight} p-6`}>
+//       <h1 className={`${typography.headings} ${tailwindClasses.primary}`}>
+//         Welcome!
+//       </h1>
+//       <p className={`${typography.body} ${tailwindClasses.textMuted}`}>
+//         This is a sample component using the theme.
+//       </p>
+//     </div>
+//   );
+// };
