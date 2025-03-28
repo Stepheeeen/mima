@@ -48,7 +48,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-3">
             <Image alt='' src={logo} className='w-18'/>
-            <span className="text-xl font-bold text-blue-600">InsureNet</span>
+            <span className="text-xl font-bold text-blue-600">Meemi</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -81,7 +81,7 @@ export default function Home() {
                 <DialogHeader>
                   <DialogTitle className="flex items-center space-x-3">
                   <Image alt='' src={logo} className='w-12'/>
-                    <span className="text-black">InsureNet</span>
+                    <span className="text-black">Meemi</span>
                   </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -185,7 +185,7 @@ export default function Home() {
         <section className="py-16 bg-blue-50/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-black mb-12">
-              How InsureNet Works
+              How Meemi Works
             </h2>
             <Accordion type="single" collapsible className="grid md:grid-cols-2 gap-6">
               {steps.map((step, index) => (
@@ -297,7 +297,7 @@ export default function Home() {
           <div>
             <div className="flex items-center space-x-3 mb-6">
             <Image alt='' src={logo} className='w-13'/>
-              <span className="text-xl font-bold text-black">InsureNet</span>
+              <span className="text-xl font-bold text-black">Meemi</span>
             </div>
             <p className="text-gray-700">
               AI-powered micro-insurance for the digital age.
@@ -306,7 +306,7 @@ export default function Home() {
         </div>
         <div className="mt-12 border-t border-gray-200 pt-8 text-center">
           <p className="text-gray-700">
-            © InsureNet. All rights reserved.
+            © Meemi. All rights reserved.
           </p>
         </div>
       </footer>

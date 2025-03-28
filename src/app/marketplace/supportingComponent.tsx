@@ -448,7 +448,7 @@ export const Sidebar = ({
             <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                 <Image alt='' src={logo} className='w-20'/>
-                    <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
+                    <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>Meemi</h1>
                 </div>
                 <Button variant="ghost" size="icon" className="md:hidden" onClick={onClose}>
                     <X size={24} />
@@ -602,7 +602,7 @@ export const MainHeader = ({
                 {/* Logo */}
                 <Link href="/" className="flex items-center space-x-3 cursor-pointer">
                 <Image alt='' src={logo} className='w-10'/>
-                    <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
+                    <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>Meemi</h1>
                 </Link>
 
                 {/* Search Bar */}
@@ -646,7 +646,7 @@ export const MainFooter = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                     <div className="text-center md:text-left">
                         <p className={`${tailwindClasses.textMuted} text-sm`}>
-                            © InsureNet
+                            © Meemi
                         </p>
                     </div>
                     <div className="flex flex-wrap justify-center md:justify-end space-x-4">
