@@ -33,6 +33,7 @@ import AiPricing from "../../public/illustration/ai-pricing.png"
 import Coverage from "../../public/illustration/coverage.png"
 import customerCare from "../../public/illustration/customer-care.png"
 import Payment from "../../public/illustration/payment.png"
+import AuthModal from './AuthModal/page';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -40,6 +41,7 @@ export default function Home() {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
@@ -62,11 +64,24 @@ export default function Home() {
             <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors">
               Reach us
             </Link>
-            <Link href="/marketplace">
+            {/* <Link href="/marketplace">
               <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+
                 Get Insured
               </Button>
-            </Link>
+            </Link> */}
+            <Link href="/marketplace">
+  <Button 
+    variant="outline" 
+    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+    onClick={(e) => {
+      e.preventDefault();
+      setIsAuthModalOpen(true);
+    }}
+  >
+    Get Insured
+  </Button>
+</Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -106,14 +121,25 @@ export default function Home() {
                   >
                     Pricing
                   </Link>
-                  <Link
+                  {/* <Link
                     href="#marketplace"
                     onClick={toggleMobileMenu}
                   >
                     <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
                       Get Insured
                     </Button>
-                  </Link>
+                  </Link> */}
+                  <Link href="#marketplace" onClick={toggleMobileMenu}>
+  <Button 
+    className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
+    onClick={(e) => {
+      e.preventDefault();
+      setIsAuthModalOpen(true);
+    }}
+  >
+    Get Insured
+  </Button>
+</Link>
                 </div>
               </DialogContent>
             </Dialog>
@@ -310,6 +336,10 @@ export default function Home() {
           </p>
         </div>
       </footer>
+      <AuthModal 
+  isOpen={isAuthModalOpen} 
+  onClose={() => setIsAuthModalOpen(false)} 
+/>
     </div>
   );
 }
