@@ -55,6 +55,7 @@ import { useTheme } from '@/contextProviders/ThemeProvider';
 import { Separator } from "@/components/ui/separator";
 import logo from "../../../public/Logo.png"
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Risk level colors mapping
 const RISK_COLORS = {
@@ -339,7 +340,7 @@ export const InsuranceDetailsModal = ({ product, onClose }: InsuranceDetailsModa
                 <DialogHeader>
                     <DialogTitle className="flex items-center space-x-4">
                     </DialogTitle>
-                    <ShieldIcon className="w-10 h-10 text-blue-500" />
+                    <Image alt='' src={logo} className='w-10'/>
                     <span>{product.name}</span>
                 </DialogHeader>
 
@@ -599,10 +600,10 @@ export const MainHeader = ({
                 </Button>
 
                 {/* Logo */}
-                <div className="flex items-center space-x-3">
-                <Image alt='' src={logo} className='w-20'/>
+                <Link href="/" className="flex items-center space-x-3 cursor-pointer">
+                <Image alt='' src={logo} className='w-10'/>
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
-                </div>
+                </Link>
 
                 {/* Search Bar */}
                 <div className="relative hidden md:block">
@@ -645,7 +646,7 @@ export const MainFooter = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                     <div className="text-center md:text-left">
                         <p className={`${tailwindClasses.textMuted} text-sm`}>
-                            © 2024 InsureNet. All rights reserved.
+                            © InsureNet
                         </p>
                     </div>
                     <div className="flex flex-wrap justify-center md:justify-end space-x-4">
