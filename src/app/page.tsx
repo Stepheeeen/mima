@@ -33,7 +33,7 @@ import AiPricing from "../../public/illustration/ai-pricing.png"
 import Coverage from "../../public/illustration/coverage.png"
 import customerCare from "../../public/illustration/customer-care.png"
 import Payment from "../../public/illustration/payment.png"
-import AuthModal from './AuthModal/page';
+import { AuthModal } from '../components/AuthModal/page';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function Home() {
       <nav className="sticky top-0 z-50 bg-blue-50/90 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-3">
-            <Image alt='' src={logo} className='w-18'/>
+            <Image alt='' src={logo} className='w-18' />
             <span className="text-xl font-bold text-blue-600">Meemi</span>
           </Link>
 
@@ -71,17 +71,17 @@ export default function Home() {
               </Button>
             </Link> */}
             <Link href="/marketplace">
-  <Button 
-    variant="outline" 
-    className="border-blue-600 text-blue-600 hover:bg-blue-50"
-    onClick={(e) => {
-      e.preventDefault();
-      setIsAuthModalOpen(true);
-    }}
-  >
-    Get Insured
-  </Button>
-</Link>
+              <Button
+                variant="outline"
+                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsAuthModalOpen(true);
+                }}
+              >
+                Get Insured
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -95,7 +95,7 @@ export default function Home() {
               <DialogContent className="w-full h-full max-h-screen max-w-screen bg-blue-50">
                 <DialogHeader>
                   <DialogTitle className="flex items-center space-x-3">
-                  <Image alt='' src={logo} className='w-12'/>
+                    <Image alt='' src={logo} className='w-12' />
                     <span className="text-black">Meemi</span>
                   </DialogTitle>
                 </DialogHeader>
@@ -130,16 +130,16 @@ export default function Home() {
                     </Button>
                   </Link> */}
                   <Link href="#marketplace" onClick={toggleMobileMenu}>
-  <Button 
-    className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
-    onClick={(e) => {
-      e.preventDefault();
-      setIsAuthModalOpen(true);
-    }}
-  >
-    Get Insured
-  </Button>
-</Link>
+                    <Button
+                      className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsAuthModalOpen(true);
+                      }}
+                    >
+                      Get Insured
+                    </Button>
+                  </Link>
                 </div>
               </DialogContent>
             </Dialog>
@@ -154,7 +154,7 @@ export default function Home() {
             <div>
               <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-6 leading-tight">
                 AI-Powered <br />
-                <span className="text-blue-600">Micro-Insurance</span>
+                <span className="text-blue-600">Micro-Insurance Marketplace</span>
               </h1>
               <p className="text-lg text-gray-700 mb-8 max-w-xl">
                 Instant, smart insurance for travel, gadgets, and gear.
@@ -322,7 +322,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-3 mb-6">
-            <Image alt='' src={logo} className='w-13'/>
+              <Image alt='' src={logo} className='w-13' />
               <span className="text-xl font-bold text-black">Meemi</span>
             </div>
             <p className="text-gray-700">
@@ -336,10 +336,10 @@ export default function Home() {
           </p>
         </div>
       </footer>
-      <AuthModal 
-  isOpen={isAuthModalOpen} 
-  onClose={() => setIsAuthModalOpen(false)} 
-/>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </div>
   );
 }

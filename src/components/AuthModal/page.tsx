@@ -1,15 +1,23 @@
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Wallet, User, Building2 } from 'lucide-react';
+
+declare global {
+  interface Window {
+    ethereum?: {
+      request: (args: { method: string }) => Promise<string[]>;
+    };
+  }
+}
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [userType, setUserType] = useState<'user' | 'organization' | null>(null);
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
@@ -26,8 +34,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     setIsWalletConnecting(true);
     try {
       if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ 
-          method: 'eth_requestAccounts' 
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
         });
         setForm(prev => ({ ...prev, walletAddress: accounts[0] }));
         if (!isSignUp) {
@@ -179,5 +187,3 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     </div>
   );
 };
-
-export default AuthModal;
