@@ -53,6 +53,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from '@/contextProviders/ThemeProvider';
 import { Separator } from "@/components/ui/separator";
+import logo from "../../../public/Logo.png"
+import Image from 'next/image';
 
 // Risk level colors mapping
 const RISK_COLORS = {
@@ -444,7 +446,7 @@ export const Sidebar = ({
             {/* Sidebar Header */}
             <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                    <Shield className={tailwindClasses.primary} size={32} />
+                <Image alt='' src={logo} className='w-20'/>
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
                 </div>
                 <Button variant="ghost" size="icon" className="md:hidden" onClick={onClose}>
@@ -598,7 +600,7 @@ export const MainHeader = ({
 
                 {/* Logo */}
                 <div className="flex items-center space-x-3">
-                    <Shield className={tailwindClasses.primary} size={32} />
+                <Image alt='' src={logo} className='w-20'/>
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>InsureNet</h1>
                 </div>
 
