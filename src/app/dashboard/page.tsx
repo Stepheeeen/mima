@@ -207,13 +207,13 @@ export default function InsuranceDashboard() {
 
   return (
     <>
-    <MainHeader/>
+      <MainHeader />
       <div className="min-h-screen bg-gray-50 py-10">
-        <Button variant="ghost" className='text-lg' onClick={() => router.back()}>
-          <ChevronLeftCircle size={100} />
-          Back
-        </Button>
         <div className="max-w-6xl mx-auto px-4">
+          <Button variant="ghost" className='text-lg' onClick={() => router.back()}>
+            <ChevronLeftCircle size={100} />
+            Back
+          </Button>
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">My Dashboard</h1>
             <p className="text-gray-600">Manage and track your insurance policies and claims</p>
