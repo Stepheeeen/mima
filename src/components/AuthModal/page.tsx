@@ -41,7 +41,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         if (!isSignUp) {
           // If logging in, redirect immediately after wallet connection
           onClose();
-          router.push("/dashboard");
+          router.push("/marketplace");
         }
       } else {
         alert('Please install MetaMask to continue');

@@ -1,17 +1,12 @@
 "use client"
 import React, { useState } from 'react';
 import {
-    Shield,
     Filter,
     Search,
-    User,
     ShoppingCart,
-    ShieldIcon,
-    GlobeIcon,
-    FileText,
     X,
-    RefreshCw,
-    Menu
+    Menu,
+    LayoutDashboard
 } from 'lucide-react';
 import {
     Card,
@@ -24,16 +19,9 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    NavigationMenu,
-    NavigationMenuList,
-    NavigationMenuItem,
-    NavigationMenuLink
-} from '@/components/ui/navigation-menu';
 import {
     Accordion,
     AccordionContent,
@@ -50,12 +38,13 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { useTheme } from '@/contextProviders/ThemeProvider';
 import { Separator } from "@/components/ui/separator";
 import logo from "../../../public/Logo.png"
 import Image from 'next/image';
 import Link from 'next/link';
+import { ComingSoonModal } from '@/components/reusable/ComingSoonModal';
+import { useRouter } from 'next/navigation';
 
 // Risk level colors mapping
 const RISK_COLORS = {
@@ -150,6 +139,7 @@ export const SidebarFilters = ({
 // Quick Actions Sidebar Component
 export const QuickActionsSidebar = () => {
     const { tailwindClasses, typography } = useTheme();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <Card className={`${tailwindClasses.surface} shadow-md `}>
@@ -164,11 +154,10 @@ export const QuickActionsSidebar = () => {
                     className={`
             w-full 
             ${tailwindClasses.border} 
-            hover:${tailwindClasses.primary} 
-            hover:text-white 
+            hover:${tailwindClasses.success} 
             transition-colors
           `}
-                >
+                    onClick={() => setIsModalOpen(true)}>
                     File a Claim
                 </Button>
                 <Button
@@ -177,13 +166,17 @@ export const QuickActionsSidebar = () => {
             w-full 
             ${tailwindClasses.border} 
             hover:${tailwindClasses.success} 
-            hover:text-white 
             transition-colors
           `}
-                >
+                    onClick={() => setIsModalOpen(true)}>
                     Renew Policy
                 </Button>
             </CardContent>
+
+            <ComingSoonModal
+                isOpen={isModalOpen}
+                setIsOpen={setIsModalOpen}
+            />
         </Card>
     );
 };
@@ -340,7 +333,7 @@ export const InsuranceDetailsModal = ({ product, onClose }: InsuranceDetailsModa
                 <DialogHeader>
                     <DialogTitle className="flex items-center space-x-4">
                     </DialogTitle>
-                    <Image alt='' src={logo} className='w-10'/>
+                    <Image alt='' src={logo} className='w-10' />
                     <span>{product.name}</span>
                 </DialogHeader>
 
@@ -438,6 +431,8 @@ export const Sidebar = ({
     onRiskLevelChange
 }: SidebarFiltersProps & { isOpen: boolean; onClose: () => void }) => {
     const { tailwindClasses, typography } = useTheme();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter()
 
     return (
         <aside
@@ -447,7 +442,7 @@ export const Sidebar = ({
             {/* Sidebar Header */}
             <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                <Image alt='' src={logo} className='w-20'/>
+                    <Image alt='' src={logo} className='w-20' />
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>Meemi</h1>
                 </div>
                 <Button variant="ghost" size="icon" className="md:hidden" onClick={onClose}>
@@ -549,7 +544,7 @@ export const Sidebar = ({
             hover:text-white 
             transition-colors
           `}
-                    >
+                        onClick={() => setIsModalOpen(true)} >
                         File a Claim
                     </Button>
                     <Button
@@ -561,7 +556,7 @@ export const Sidebar = ({
             hover:text-white 
             transition-colors
           `}
-                    >
+                        onClick={() => setIsModalOpen(true)} >
                         Renew Policy
                     </Button>
                 </CardContent>
@@ -571,13 +566,18 @@ export const Sidebar = ({
 
             {/* User Actions */}
             <div className="px-6">
-                <Button className="w-full flex items-center justify-center">
-                    <User size={20} className="mr-2" /> Login
-                </Button>
-                <Button variant="outline" className="w-full flex items-center justify-center mt-3">
+                <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={() => setIsModalOpen(true)}>
                     <ShoppingCart size={20} className="mr-2" /> Cart
                 </Button>
+                <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={()=>{router.push("/dashboard")}}>
+                    <LayoutDashboard size={20} className="mr-2" /> My Dashboard
+                </Button>
             </div>
+
+            <ComingSoonModal
+                isOpen={isModalOpen}
+                setIsOpen={setIsModalOpen}
+            />
         </aside>
     );
 };
@@ -590,6 +590,8 @@ export const MainHeader = ({
 }: SidebarFiltersProps) => {
     const { tailwindClasses, typography } = useTheme();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter()
 
     return (
         <header className={`shadow-sm ${tailwindClasses.surface}`}>
@@ -601,7 +603,7 @@ export const MainHeader = ({
 
                 {/* Logo */}
                 <Link href="/" className="flex items-center space-x-3 cursor-pointer">
-                <Image alt='' src={logo} className='w-10'/>
+                    <Image alt='' src={logo} className='w-10' />
                     <h1 className={`text-xl font-semibold ${typography.headings} ${tailwindClasses.textDark}`}>Meemi</h1>
                 </Link>
 
@@ -614,11 +616,11 @@ export const MainHeader = ({
                 <div className="flex items-center space-x-4">
 
                     {/* Cart & Login */}
-                    <Button variant="outline" className='hidden md:flex'>
+                    <Button variant="outline" className='hidden md:flex' onClick={() => setIsModalOpen(true)}>
                         <ShoppingCart size={20} className="mr-2" /> Cart
                     </Button>
-                    <Button className={`${tailwindClasses.primary} hover:opacity-90 hidden md:flex`} >
-                        <User size={20} className="mr-2" /> Login
+                    <Button variant="outline" className='hidden md:flex' onClick={()=>{router.push("/dashboard")}}>
+                        <LayoutDashboard size={20} className="mr-2" /> My Dashboard
                     </Button>
                 </div>
             </div>
@@ -631,6 +633,11 @@ export const MainHeader = ({
                 onTypesChange={onTypesChange} // Replace with actual handler
                 riskLevel={riskLevel} // Provide appropriate state or default value
                 onRiskLevelChange={onRiskLevelChange} // Replace with actual handler
+            />
+
+            <ComingSoonModal
+                isOpen={isModalOpen}
+                setIsOpen={setIsModalOpen}
             />
         </header>
     );
