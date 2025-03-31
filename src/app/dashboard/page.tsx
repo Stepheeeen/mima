@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronRight, ShieldCheck, FileText, Calendar, DollarSign, CreditCard, ChevronLeftCircle } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { MainHeader } from '../marketplace/supportingComponent';
 
 // Enhanced Mock Data with More Comprehensive Information
 const policies: Policy[] = [
@@ -205,68 +206,71 @@ export default function InsuranceDashboard() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
-      <Button variant="ghost" className='text-lg' onClick={() => router.back()}>
-        <ChevronLeftCircle size={100} />
-        Back
-      </Button>
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">My Dashboard</h1>
-          <p className="text-gray-600">Manage and track your insurance policies and claims</p>
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
-          <div className="flex border-b">
-            {["policies", "claims"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-3 text-sm font-medium transition-colors 
-                  ${activeTab === tab
-                    ? "text-blue-600 border-b-2 border-blue-600"
-                    : "text-gray-500 hover:text-gray-700"}`}
-              >
-                {tab === "policies" ? "My Policies" : "Claim History"}
-              </button>
-            ))}
+    <>
+    <MainHeader/>
+      <div className="min-h-screen bg-gray-50 py-10">
+        <Button variant="ghost" className='text-lg' onClick={() => router.back()}>
+          <ChevronLeftCircle size={100} />
+          Back
+        </Button>
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">My Dashboard</h1>
+            <p className="text-gray-600">Manage and track your insurance policies and claims</p>
           </div>
 
-          <div className="p-6">
-            {activeTab === "policies" ? (
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Active Policies</h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {activePolicies.map(policy => (
-                      <PolicyCard key={policy.id} policy={policy} />
-                    ))}
-                  </div>
-                </div>
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+            <div className="flex border-b">
+              {["policies", "claims"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-3 text-sm font-medium transition-colors 
+                  ${activeTab === tab
+                      ? "text-blue-600 border-b-2 border-blue-600"
+                      : "text-gray-500 hover:text-gray-700"}`}
+                >
+                  {tab === "policies" ? "My Policies" : "Claim History"}
+                </button>
+              ))}
+            </div>
 
-                {expiredPolicies.length > 0 && (
+            <div className="p-6">
+              {activeTab === "policies" ? (
+                <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Expired Policies</h2>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Active Policies</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {expiredPolicies.map(policy => (
+                      {activePolicies.map(policy => (
                         <PolicyCard key={policy.id} policy={policy} />
                       ))}
                     </div>
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {claims.map(claim => (
-                    <ClaimTimeline key={claim.id} claim={claim} />
-                  ))}
+
+                  {expiredPolicies.length > 0 && (
+                    <div>
+                      <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Expired Policies</h2>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {expiredPolicies.map(policy => (
+                          <PolicyCard key={policy.id} policy={policy} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="space-y-6">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {claims.map(claim => (
+                      <ClaimTimeline key={claim.id} claim={claim} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

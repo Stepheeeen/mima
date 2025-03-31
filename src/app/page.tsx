@@ -32,8 +32,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import AiPricing from "../../public/illustration/ai-pricing.png"
 import Coverage from "../../public/illustration/coverage.png"
 import customerCare from "../../public/illustration/customer-care.png"
-import Payment from "../../public/illustration/payment.png"
 import { AuthModal } from '../components/AuthModal/page';
+import { FeatureCard } from '@/components/landingPage/FeatureCard';
+import { AIBrain, ClockCheck, ContractCode, MultiCoins, ShoppingCart, WalletShield } from '@/components/icons/Icons';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -185,23 +186,24 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-3 place-items-center gap-8">
+        <section className="py-16 bg-gradient-to-b from-white to-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Core Features</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Our decentralized insurance platform combines blockchain technology with AI to provide seamless, transparent, and efficient insurance solutions.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all bg-white border-blue-100">
-                  <CardHeader className='justify-center'>
-                    <div className="text-blue-600 mb-4">
-                      <Image src={feature.icon} alt='alt' className='h-30 w-auto' />
-                    </div>
-                    <CardTitle className='text-center text-black'>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-700 text-center">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                <FeatureCard
+                  key={index}
+                  title={feature.title}
+                  description={feature.description}
+                  badge={feature.badge}
+                  illustration={<div className="text-center text-gray-400">{feature.illustration()}</div>}
+                />
               ))}
             </div>
           </div>
@@ -278,7 +280,7 @@ export default function Home() {
         </section>
 
         {/* Risk Assessment Section */}
-        <section className="py-16 bg-blue-50/30">
+        {/* <section className="py-16 bg-blue-50/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold text-black mb-6">
               Advanced Risk Assessment
@@ -296,7 +298,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CTA */}
         <section className="bg-blue-600 text-white py-16">
@@ -345,42 +347,51 @@ export default function Home() {
 }
 
 // The arrays for features, steps, supportFeatures, and riskAssessmentFeatures remain the same as in the original code
-const features = [
-  {
-    icon: Coverage,
-    title: 'Global Coverage',
-    description: 'Instant protection anywhere in the world.',
-  },
-  {
-    icon: AiPricing,
-    title: 'AI-Powered Pricing',
-    description: 'Smart, fair pricing based on your profile.',
-  },
-  {
-    icon: Payment,
-    title: 'Crypto Payments',
-    description: 'Pay securely with MetaMask or WalletConnect.',
-  },
-];
+// const features = [
+//   {
+//     icon: Coverage,
+//     title: 'Global Coverage',
+//     description: 'Instant protection anywhere in the world.',
+//   },
+//   {
+//     icon: AiPricing,
+//     title: 'AI-Powered Pricing',
+//     description: 'Smart, fair pricing based on your profile.',
+//   },
+//   {
+//     icon: Payment,
+//     title: 'Crypto Payments',
+//     description: 'Pay securely with MetaMask or WalletConnect.',
+//   },
+// ];
 
 const steps = [
   {
-    title: 'Select Coverage',
-    description: 'Browse our comprehensive marketplace of micro-insurance options. From international travel protection to device coverage and specialized event insurance, customize your plan to match your exact needs with just a few clicks.'
+    title: 'Connect Wallet',
+    description: 'Begin by securely connecting your Web3 wallet to the platform. This allows you to access your digital assets, authenticate transactions, and interact seamlessly with the decentralized marketplace.'
   },
   {
-    title: 'Quick Profile',
-    description: 'Our advanced AI analyzes multiple data points in seconds, creating a personalized risk profile. By examining factors like travel history, device specifications, and real-time global risk databases, we generate a tailored insurance recommendation.'
+    title: 'Browse & Shop',
+    description: 'Explore a wide range of NFTs, digital assets, or insured products available for purchase. Use filters and categories to find the perfect item that suits your needs.'
   },
   {
-    title: 'Crypto Payment',
-    description: 'Complete your policy purchase using cryptocurrency through secure blockchain networks. Support for MetaMask, WalletConnect, and multiple stablecoins ensures fast, transparent, and globally accessible transactions with minimal fees.'
+    title: 'View Policy Options',
+    description: 'Before finalizing your purchase, review various insurance policies tailored for your digital assets. These policies provide protection against loss, damage, or other unforeseen events.'
   },
   {
-    title: 'Auto-Claim',
-    description: 'Experience the future of insurance claims with our smart contract technology. Predefined claim conditions automatically trigger instant payouts directly to your wallet, eliminating paperwork, reducing processing time to minutes, not days.'
+    title: 'Checkout with Insurance',
+    description: 'Proceed to checkout by selecting your preferred insurance policy and completing the transaction securely. The insurance coverage will be automatically linked to your purchase.'
+  },
+  {
+    title: 'Automated Claim Triggers',
+    description: 'In case of an incident covered by the policy, automated smart contract triggers will initiate the claims process without requiring manual intervention, ensuring a seamless experience.'
+  },
+  {
+    title: 'Instant Payments',
+    description: 'Upon successful validation of a claim, instant payouts are processed directly to your wallet through blockchain-powered smart contracts, ensuring transparency and efficiency.'
   },
 ];
+
 
 const supportFeatures = [
   {
@@ -413,4 +424,43 @@ const riskAssessmentFeatures = [
     title: 'Personalized Pricing',
     description: 'Tailored insurance rates based on individual profiles.'
   }
+];
+
+const features = [
+  {
+    title: "Integrated Insurance + Commerce",
+    description: "Purchase insurance at checkout for physical goods bought on a decentralized marketplace. No separate applications or redirects.",
+    badge: "Seamless",
+    illustration: ShoppingCart, // This would be a custom SVG or component
+  },
+  {
+    title: "Smart Contract Policies",
+    description: "Your policy lives as a smart contract on the blockchain, automatically handling everything from premium collection to claim payouts.",
+    badge: "Automated",
+    illustration: ContractCode, // This would be a custom SVG or component
+  },
+  {
+    title: "AI-Powered Risk Assessment",
+    description: "Our lean AI framework evaluates your data in real-time to determine risk levels and calculate fair, personalized premiums.",
+    badge: "Intelligent",
+    illustration: AIBrain, // This would be a custom SVG or component
+  },
+  {
+    title: "Real-Time Claim Verification",
+    description: "Claims are verified instantly through trusted external data sources and paid directly to your wallet without human intervention.",
+    badge: "Instant",
+    illustration: ClockCheck, // This would be a custom SVG or component
+  },
+  {
+    title: "Wallet-Based Access",
+    description: "Access your insurance dashboard and sign transactions securely using popular Web3 wallets like MetaMask and WalletConnect.",
+    badge: "Secure",
+    illustration: WalletShield, // This would be a custom SVG or component
+  },
+  {
+    title: "Multi-Asset Payments",
+    description: "Pay premiums using stablecoins or native crypto tokens, giving you convenience and choice for your insurance transactions.",
+    badge: "Flexible",
+    illustration: MultiCoins, // This would be a custom SVG or component
+  },
 ];

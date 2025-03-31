@@ -46,6 +46,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ComingSoonModal } from '@/components/reusable/ComingSoonModal';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 // Risk level colors mapping
 const RISK_COLORS = {
@@ -56,10 +57,10 @@ const RISK_COLORS = {
 
 // Sidebar Filters Component
 interface SidebarFiltersProps {
-    selectedTypes: string[];
-    onTypesChange: (types: string[]) => void;
-    riskLevel: number[];
-    onRiskLevelChange: (level: number[]) => void;
+    selectedTypes?: string[] | undefined;
+    onTypesChange?: (types: string[]) => void;
+    riskLevel?: number[] | undefined;
+    onRiskLevelChange?: (level: number[]) => void;
 }
 
 export const SidebarFilters = ({
@@ -91,13 +92,14 @@ export const SidebarFilters = ({
                                     <div key={type} className="flex items-center space-x-2">
                                         <Checkbox
                                             id={type}
-                                            checked={selectedTypes.includes(type)}
+                                            checked={selectedTypes?.includes(type)}
                                             onCheckedChange={(checked) => {
-                                                onTypesChange(
-                                                    checked
-                                                        ? [...selectedTypes, type]
-                                                        : selectedTypes.filter((t: string) => t !== type)
-                                                );
+                                                onTypesChange &&
+                                                    onTypesChange?.(
+                                                        checked
+                                                            ? [...(selectedTypes || []), type]
+                                                            : (selectedTypes || []).filter((t: string) => t !== type)
+                                                    );
                                             }}
                                         />
                                         <Label htmlFor={type}>{type}</Label>
@@ -118,7 +120,7 @@ export const SidebarFilters = ({
                             <div className="space-y-2">
                                 <div className="flex justify-between text-sm">
                                     <span>Max Risk Level</span>
-                                    <span>{riskLevel[0]}</span>
+                                    <span>{riskLevel?.[0] ?? 'N/A'}</span>
                                 </div>
                                 <Slider
                                     defaultValue={[2]}
@@ -492,6 +494,7 @@ export const Sidebar = ({
     const { tailwindClasses, typography } = useTheme();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter()
+    const pathname = usePathname()
 
     return (
         <aside
@@ -540,12 +543,12 @@ export const Sidebar = ({
                                         <div key={type} className="flex items-center space-x-2">
                                             <Checkbox
                                                 id={type}
-                                                checked={selectedTypes.includes(type)}
+                                                checked={selectedTypes?.includes(type)}
                                                 onCheckedChange={(checked) => {
-                                                    onTypesChange(
+                                                    onTypesChange?.(
                                                         checked
-                                                            ? [...selectedTypes, type]
-                                                            : selectedTypes.filter((t: string) => t !== type)
+                                                            ? [...(selectedTypes || []), type]
+                                                            : (selectedTypes || []).filter((t: string) => t !== type)
                                                     );
                                                 }}
                                             />
@@ -567,7 +570,7 @@ export const Sidebar = ({
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
                                         <span>Max Risk Level</span>
-                                        <span>{riskLevel[0]}</span>
+                                        <span>{riskLevel?.[0]}</span>
                                     </div>
                                     <Slider
                                         defaultValue={[2]}
@@ -628,7 +631,7 @@ export const Sidebar = ({
                 <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={() => setIsModalOpen(true)}>
                     <ShoppingCart size={20} className="mr-2" /> Cart
                 </Button>
-                <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={() => { router.push("/dashboard") }}>
+                <Button variant={`${pathname === "/dashboard" ? "secondary" : "outline"}`} className="w-full flex items-center justify-center mt-3" onClick={() => { router.push("/dashboard") }}>
                     <LayoutDashboard size={20} className="mr-2" /> My Dashboard
                 </Button>
             </div>
@@ -651,6 +654,7 @@ export const MainHeader = ({
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter()
+    const pathname = usePathname()
 
     return (
         <header className={`shadow-sm ${tailwindClasses.surface}`}>
@@ -678,7 +682,7 @@ export const MainHeader = ({
                     <Button variant="outline" className='hidden md:flex' onClick={() => setIsModalOpen(true)}>
                         <ShoppingCart size={20} className="mr-2" /> Cart
                     </Button>
-                    <Button variant="outline" className='hidden md:flex' onClick={() => { router.push("/dashboard") }}>
+                    <Button variant={`${pathname === "/dashboard" ? "secondary" : "outline"}`} className={`hidden md:flex`} onClick={() => { router.push("/dashboard") }}>
                         <LayoutDashboard size={20} className="mr-2" /> My Dashboard
                     </Button>
                 </div>
