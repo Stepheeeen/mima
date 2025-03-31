@@ -6,7 +6,8 @@ import {
     ShoppingCart,
     X,
     Menu,
-    LayoutDashboard
+    LayoutDashboard,
+    Loader2
 } from 'lucide-react';
 import {
     Card,
@@ -288,134 +289,192 @@ interface InsuranceDetailsModalProps {
 }
 
 export const InsuranceDetailsModal = ({ product, onClose }: InsuranceDetailsModalProps) => {
-    // State for dynamic pricing and form inputs
-    const [destination, setDestination] = useState('');
-    const [travelDate, setTravelDate] = useState('');
-    const [deviceType, setDeviceType] = useState('');
-    const [coverageAmount, setCoverageAmount] = useState(5000);
-    const [premium, setPremium] = useState(50);
+    const [formData, setFormData] = useState({
+        organization: "",
+        insurancePlan: "",
+        amount: "",
+        premium: "",
+        startingDate: "",
+        endingDate: ""
+    });
 
-    // Premium calculation logic (simplified)
-    const calculatePremium = (amount: number, destination: string, deviceType: string): number => {
-        let basePremium = amount * 0.01;
+    const [showAnalysis, setShowAnalysis] = useState(true);
+    const [acceptedRisks, setAcceptedRisks] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-        // Adjust premium based on destination risk
-        switch (destination) {
-            case 'High Risk':
-                basePremium *= 1.5;
-                break;
-            case 'Medium Risk':
-                basePremium *= 1.2;
-                break;
-            default:
-                basePremium *= 1;
-        }
-
-        // Adjust for device type
-        if (deviceType === 'Smartphone') {
-            basePremium *= 1.1;
-        } else if (deviceType === 'Laptop') {
-            basePremium *= 1.3;
-        }
-
-        return Math.round(basePremium);
+    const handleChange = (field: string, value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    // Update premium when inputs change
-    React.useEffect(() => {
-        const newPremium = calculatePremium(coverageAmount, destination, deviceType);
-        setPremium(newPremium);
-    }, [coverageAmount, destination, deviceType]);
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        setShowAnalysis(true);
+        // Here you would typically handle the form submission
+        console.log("Form submitted:", formData);
+    };
+
+    // Sample organization options
+    const organizations = [
+        { value: "org1", label: "ABC Corporation" },
+        { value: "org2", label: "XYZ Insurance" },
+        { value: "org3", label: "123 Global" }
+    ];
+
+    // Sample insurance plan options
+    const insurancePlans = [
+        { value: "plan1", label: "Basic Coverage" },
+        { value: "plan2", label: "Standard Coverage" },
+        { value: "plan3", label: "Premium Coverage" }
+    ];
 
     return (
         <Dialog open={true} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center space-x-4">
+                        <Image alt='' src={logo} className='w-10' />
+                        <span>{product.name}</span>
                     </DialogTitle>
-                    <Image alt='' src={logo} className='w-10' />
-                    <span>{product.name}</span>
                 </DialogHeader>
 
                 <Card>
                     <CardContent>
-                        <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Amount ($)
-                                </label>
-                                <Input
-                                    type="number"
-                                    value={coverageAmount}
-                                    onChange={(e) => setCoverageAmount(Number(e.target.value))}
-                                    min={1000}
-                                    max={50000}
-                                    className="mt-1"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Premium ($)
-                                </label>
-                                <div className="mt-1 p-2 bg-gray-100 rounded">
-                                    {premium}
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid gap-4">
+                                {/* Organization Selection - Fixed to full width */}
+                                <div className="space-y-2 col-span-1">
+                                    <label htmlFor="organization" className="text-sm font-medium">
+                                        Select Organization
+                                    </label>
+                                    <Select
+                                        onValueChange={(value) => handleChange("organization", value)}
+                                        required
+                                    >
+                                        <SelectTrigger id="organization" className="w-full">
+                                            <SelectValue placeholder="Select an organization" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {organizations.map((org) => (
+                                                <SelectItem key={org.value} value={org.value}>
+                                                    {org.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                {/* Insurance Plan - Fixed to full width */}
+                                <div className="space-y-2 col-span-1">
+                                    <label htmlFor="insurancePlan" className="text-sm font-medium">
+                                        Insurance Plan
+                                    </label>
+                                    <Select
+                                        onValueChange={(value) => handleChange("insurancePlan", value)}
+                                        required
+                                    >
+                                        <SelectTrigger id="insurancePlan" className="w-full">
+                                            <SelectValue placeholder="Select insurance plan" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {insurancePlans.map((plan) => (
+                                                <SelectItem key={plan.value} value={plan.value}>
+                                                    {plan.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Input Form */}
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Destination
-                                </label>
-                                <Select onValueChange={setDestination}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select Destination" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Low Risk">Low Risk Country</SelectItem>
-                                        <SelectItem value="Medium Risk">Medium Risk Country</SelectItem>
-                                        <SelectItem value="High Risk">High Risk Country</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                            {/* Amount and Premium on the same line */}
+                            <div className="space-y-2">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label htmlFor="Amount" className="text-sm font-medium">
+                                            Amount ($)
+                                        </label>
+                                        <Input
+                                            type="number"
+                                            placeholder="Amount"
+                                            value={formData.amount}
+                                            onChange={(e) => handleChange("amount", e.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="Premium" className="text-sm font-medium">
+                                            Premium ($)
+                                        </label>
+                                        <Input
+                                            type="number"
+                                            placeholder="Premium"
+                                            value={formData.premium}
+                                            onChange={(e) => handleChange("premium", e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Travel Date
-                                </label>
-                                <Input
-                                    type="date"
-                                    value={travelDate}
-                                    onChange={(e) => setTravelDate(e.target.value)}
-                                />
+                            {/* Starting and Ending Date on the same line */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Starting date, Ending date</label>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Input
+                                        type="date"
+                                        value={formData.startingDate}
+                                        onChange={(e) => handleChange("startingDate", e.target.value)}
+                                        required
+                                    />
+                                    <Input
+                                        type="date"
+                                        value={formData.endingDate}
+                                        onChange={(e) => handleChange("endingDate", e.target.value)}
+                                        required
+                                    />
+                                </div>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Device Type
-                                </label>
-                                <Select onValueChange={setDeviceType}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select Device" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Smartphone">Smartphone</SelectItem>
-                                        <SelectItem value="Laptop">Laptop</SelectItem>
-                                        <SelectItem value="Tablet">Tablet</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
+                            {/* Fixed conditional rendering - Changed !FormData to Object.values(formData).some(val => !val) */}
+                            {!Object.values(formData).some(val => !val) && showAnalysis && (
+                                <div className="mt-8 p-4 border rounded-md bg-gray-50">
+                                    <div className="flex items-center space-x-2 mb-4">
+                                        <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+                                        <p className="text-gray-700">Analyzing and generating risk and policy...</p>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox
+                                            id="risks"
+                                            checked={acceptedRisks}
+                                            onCheckedChange={(checked) => setAcceptedRisks(checked === true)}
+                                            required
+                                        />
+                                        <Label
+                                            htmlFor="risks"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                        >
+                                            Accept Risks
+                                        </Label>
+                                    </div>
+                                </div>
+                            )}
 
-                        <Button
-                            className="w-full mt-6"
-                            disabled={!destination || !travelDate || !deviceType}
-                        >
-                            Buy with Crypto
-                        </Button>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={Object.values(formData).some(val => !val) || !acceptedRisks}
+                                onClick={() => { setIsModalOpen(true) }}
+                            >
+                                Submit Information
+                            </Button>
+                        </form>
                     </CardContent>
+
+                    <ComingSoonModal
+                        isOpen={isModalOpen}
+                        setIsOpen={setIsModalOpen}
+                    />
                 </Card>
             </DialogContent>
         </Dialog>
@@ -569,7 +628,7 @@ export const Sidebar = ({
                 <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={() => setIsModalOpen(true)}>
                     <ShoppingCart size={20} className="mr-2" /> Cart
                 </Button>
-                <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={()=>{router.push("/dashboard")}}>
+                <Button variant="outline" className="w-full flex items-center justify-center mt-3" onClick={() => { router.push("/dashboard") }}>
                     <LayoutDashboard size={20} className="mr-2" /> My Dashboard
                 </Button>
             </div>
@@ -619,7 +678,7 @@ export const MainHeader = ({
                     <Button variant="outline" className='hidden md:flex' onClick={() => setIsModalOpen(true)}>
                         <ShoppingCart size={20} className="mr-2" /> Cart
                     </Button>
-                    <Button variant="outline" className='hidden md:flex' onClick={()=>{router.push("/dashboard")}}>
+                    <Button variant="outline" className='hidden md:flex' onClick={() => { router.push("/dashboard") }}>
                         <LayoutDashboard size={20} className="mr-2" /> My Dashboard
                     </Button>
                 </div>

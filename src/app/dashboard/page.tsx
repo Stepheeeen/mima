@@ -1,12 +1,14 @@
 "use client"
 import React, { useState, useMemo } from 'react';
-import { ChevronRight, ShieldCheck, FileText, Calendar, DollarSign, CreditCard } from "lucide-react";
+import { ChevronRight, ShieldCheck, FileText, Calendar, DollarSign, CreditCard, ChevronLeftCircle } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 // Enhanced Mock Data with More Comprehensive Information
 const policies: Policy[] = [
-  { 
-    id: 1, 
-    itemName: "iPhone Pro Max", 
+  {
+    id: 1,
+    itemName: "iPhone Pro Max",
     type: "Device Protection",
     provider: "TechGuard Insurance",
     coveragePeriod: {
@@ -18,9 +20,9 @@ const policies: Policy[] = [
     premium: 29.99,
     isClaimEligible: true
   },
-  { 
-    id: 2, 
-    itemName: "MacBook Pro 16\"", 
+  {
+    id: 2,
+    itemName: "MacBook Pro 16\"",
     type: "Electronics Insurance",
     provider: "DeviceCare",
     coveragePeriod: {
@@ -32,9 +34,9 @@ const policies: Policy[] = [
     premium: 49.99,
     isClaimEligible: false
   },
-  { 
-    id: 3, 
-    itemName: "Samsung Galaxy S24", 
+  {
+    id: 3,
+    itemName: "Samsung Galaxy S24",
     type: "Mobile Protection",
     provider: "MobileShield",
     coveragePeriod: {
@@ -50,25 +52,25 @@ const policies: Policy[] = [
 
 const claims = [
   {
-    id: 1, 
+    id: 1,
     itemName: "iPhone Pro Max",
     claimNumber: "CLM-2025-001",
     totalClaimAmount: 750,
     timeline: [
-      { 
-        date: "Mar 12, 2025", 
-        status: "Claim Initiated", 
-        description: "Accidental Damage Reported" 
+      {
+        date: "Mar 12, 2025",
+        status: "Claim Initiated",
+        description: "Accidental Damage Reported"
       },
-      { 
-        date: "Mar 13, 2025", 
-        status: "Approved", 
-        description: "Claim Verified and Processed" 
+      {
+        date: "Mar 13, 2025",
+        status: "Approved",
+        description: "Claim Verified and Processed"
       },
-      { 
-        date: "Mar 14, 2025", 
-        status: "Completed", 
-        description: "Funds Transferred" 
+      {
+        date: "Mar 14, 2025",
+        status: "Completed",
+        description: "Funds Transferred"
       }
     ]
   }
@@ -188,9 +190,9 @@ const ClaimTimeline = ({ claim }: { claim: Claim }) => {
 
       <div className="mt-4 flex justify-between items-center">
         <p className="text-sm text-gray-600">Total Claim Amount: ${claim.totalClaimAmount}</p>
-        <button className="text-blue-600 hover:underline text-sm flex items-center">
+        {/* <button className="text-blue-600 hover:underline text-sm flex items-center">
           View Details <ChevronRight className="ml-1 w-4 h-4" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
@@ -200,9 +202,14 @@ export default function InsuranceDashboard() {
   const [activeTab, setActiveTab] = useState("policies");
   const activePolicies = useMemo(() => policies.filter(p => p.status !== "Expired"), []);
   const expiredPolicies = useMemo(() => policies.filter(p => p.status === "Expired"), []);
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
+      <Button variant="ghost" className='text-lg' onClick={() => router.back()}>
+        <ChevronLeftCircle size={100} />
+        Back
+      </Button>
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">My Dashboard</h1>
@@ -216,8 +223,8 @@ export default function InsuranceDashboard() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-3 text-sm font-medium transition-colors 
-                  ${activeTab === tab 
-                    ? "text-blue-600 border-b-2 border-blue-600" 
+                  ${activeTab === tab
+                    ? "text-blue-600 border-b-2 border-blue-600"
                     : "text-gray-500 hover:text-gray-700"}`}
               >
                 {tab === "policies" ? "My Policies" : "Claim History"}
